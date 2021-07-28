@@ -1,19 +1,25 @@
-provider "aws" {
-  profile = "terraform"
-  region = "ap-northeast-1"
+# Terraform configration
+terraform {
+  required_version = ">=0.13"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>3.0"
+    }
+  }
 }
 
-resource "aws_instance" "hello-world" {
-  ami = "ami-09ebacdc178ae23b7"
-  instance_type =  "t2.micro"
+# Provider
+provider "aws" {
+  profile = "terraform"
+  region  = "ap-northeast-1"
+}
 
-  tags = {
-    Name = "HelloWorld"
-  }
+# Variables
+variable "project" {
+  type = string
+}
 
-  user_data = <<EOF
-#!/bin/bash
-amazon-linux-extras install -y nginx1.12
-systemctl start nginx
-EOF
+variable "environment" {
+  type = string
 }
